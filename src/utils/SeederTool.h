@@ -38,4 +38,5 @@ extern string tempDir;
 // Print banner
 void printBanner();
 bool canAccessDynamoDB();
+string getTableNameFromJson(const string &jsonFilePath);
 #endif

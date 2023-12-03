@@ -59,6 +59,32 @@ string pathHelper(string path)
     }
 }
 
+// Get the table name from a JSON file
+string getTableNameFromJson(const string &jsonFilePath)
+{
+    DEBUG_LOG("Getting table name from JSON: " << jsonFilePath);
+
+    ifstream file(jsonFilePath);
+    if (file.is_open())
+    {
+        // Parse JSON using rapidjson
+        IStreamWrapper inputStream(file);
+
+        Document root;
+        root.ParseStream(inputStream);
+
+        if (!root.HasParseError() && root.HasMember("TableName") && root["TableName"].IsString())
+        {
+            string tableName = root["TableName"].GetString();
+            DEBUG_LOG("Extracted table name: " << tableName);
+            return tableName;
+        }
+    }
+
+    DEBUG_LOG("Table name extraction failed.");
+    return "";
+}
+
 // Check if DynamoDB can be accessed
 bool canAccessDynamoDB()
 {
