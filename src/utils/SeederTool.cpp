@@ -11,6 +11,7 @@
 #include <unistd.h>     // For getting the current working directory
 
 // Variables
+bool debug = false;
 string appDir;
 string tempDir;
 
@@ -56,4 +57,15 @@ string pathHelper(string path)
         // Return the path
         return path;
     }
+}
+
+// Check if DynamoDB can be accessed
+bool canAccessDynamoDB()
+{
+    DEBUG_LOG("Checking if DynamoDB can be accessed.");
+
+    // Use the AWS CLI to describe the table and check if it exists
+    string command = "aws dynamodb list-tables --output json > NUL 2>&1";
+    int result = system(command.c_str());
+    return result == 0;
 }

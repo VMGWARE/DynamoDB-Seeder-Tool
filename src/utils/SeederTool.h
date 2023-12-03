@@ -15,11 +15,15 @@
 #include <string>
 #include <vector>
 #include <fstream>
+#include <rapidjson/document.h>
+#include <rapidjson/istreamwrapper.h>
 
 // Namespaces
 using namespace std;
+using namespace rapidjson;
 
 // Global variables
+extern bool debug;
 extern string appDir;
 extern string tempDir;
 
@@ -33,4 +37,5 @@ extern string tempDir;
 
 // Print banner
 void printBanner();
+bool canAccessDynamoDB();
 #endif
