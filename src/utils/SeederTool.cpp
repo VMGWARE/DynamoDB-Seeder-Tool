@@ -26,6 +26,7 @@ void printBanner()
     cout << "#                                     #\n";
     cout << "#######################################\n\n";
     cout << "This utility will help you seed your DynamoDB tables with data.\n";
+    cout << "Please ensure you have the AWS CLI configured and accessible.\n";
     cout << "---------------------------------------\n\n";
 }
 
