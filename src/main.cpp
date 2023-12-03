@@ -145,12 +145,61 @@ int main(int argc, char *argv[])
         return 1;
     }
 
-    // Make sure the required parameters are passed in
-    // If not we can print the help menu and exit
+    // Log that JSON files are being loaded
+    cout << "Loading JSON files from directory: " << jsonDir << endl;
+    spdlog::get("file_logger")->info("Loading JSON files from directory: {}", jsonDir);
+    string tmpErrorFile = tempDir + "\\error.log"; // Temporary file to capture error messages
+    cout << "Temporary error file: " << tmpErrorFile << endl;
+    spdlog::get("file_logger")->info("Temporary error file: {}", tmpErrorFile);
 
-    // If the required parameters are passed in
-    // Check if the folder passed exists, if not throw an exception
+    // Check if JSON directory exists
+    DIR *dir;
+    struct dirent *ent;
+    if ((dir = opendir(jsonDir.c_str())) != nullptr)
+    {
+        cout << endl
+             << "Seeding tables..." << endl;
+        spdlog::get("file_logger")->info("Seeding tables...");
+
+        // Iterate through files in directory
+
+        // Check if the table exists
+        // If the table does not exist, give an error message and continue to the next file
+        // If it does exist, seed the table with the data from the JSON file
+        // For each item in the JSON file, check if the item exists in the table
+        // If the item does not exist, add it to the table
+        while ((ent = readdir(dir)) != nullptr)
+        {
+            string filename = ent->d_name;
+            if (filename.size() > 5 && filename.substr(filename.size() - 5) == ".json")
+            {
+                string jsonFile = jsonDir + "/" + filename;
+                string tableName = getTableNameFromJson(jsonFile);
+
+                cout << "  Seeding the " << tableName << " table..." << endl;
+                spdlog::get("file_logger")->info("Seeding the {} table...", tableName);
+
+                // If table name is not empty carry on
+                if (!tableName.empty())
+                {
+                }
+                // If table name is empty, log error and continue to next file
+                else
+                {
+                    cerr << "  - Could not get table name from " << filename << "." << endl;
+                }
+            }
+        }
+    }
+    // If directory does not exist, exit
+    else
+    {
+        spdlog::get("file_logger")->error("Could not open directory: {}", jsonDir);
+        perror("Could not open directory");
+        return EXIT_FAILURE;
+    }
 
     // Return
+    spdlog::get("file_logger")->debug("Program finished.");
     return 0;
 }
