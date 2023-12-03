@@ -182,6 +182,8 @@ int main(int argc, char *argv[])
                 // If table name is not empty carry on
                 if (!tableName.empty())
                 {
+                    // TODO: Check if table exists
+                    // TODO: For each item in the JSON file use the AWS CLI to add the item to the table
                 }
                 // If table name is empty, log error and continue to next file
                 else
